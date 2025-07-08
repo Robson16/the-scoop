@@ -1,0 +1,24 @@
+{
+  "name": "the-scoop",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "chai": "5.2.1",
+    "mocha": "11.7.1",
+    "node-localstorage": "3.0.5",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-router-dom": "7.6.3",
+    "rewire": "9.0.0",
+    "whatwg-fetch": "3.6.20"
+  },
+  "devDependencies": {
+    "@babel/core": "7.28.0",
+    "@babel/preset-env": "7.28.0",
+    "@babel/preset-react": "7.27.1",
+    "babel-loader": "10.0.0",
+    "webpack": "5.99.9"
+  }
+}
