@@ -1,9 +1,36 @@
 {
   "name": "the-scoop",
   "version": "1.0.0",
+  "description": "A backend-focused web application for article submission and comments, developed as part of Codecademy's 'Create a Back-End App with JavaScript' skill path. Features custom user handles, article management, upvoting/downvoting, and comment functionality.",
+  "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "test:watch": "mocha --watch",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
+  "author": "Robson16",
+  "license": "MIT",
+  "keywords": [
+    "Codecademy",
+    "javascript",
+    "backend",
+    "api",
+    "express",
+    "routing",
+    "database",
+    "web development",
+    "comments",
+    "articles"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Robson16/the-scoop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Robson16/the-scoop/issues"
+  },
+  "homepage": "https://github.com/Robson16/the-scoop#readme",
   "dependencies": {
     "chai": "5.2.1",
     "mocha": "11.7.1",
@@ -19,6 +46,7 @@
     "@babel/preset-env": "7.28.0",
     "@babel/preset-react": "7.27.1",
     "babel-loader": "10.0.0",
+    "nodemon": "3.1.10",
     "webpack": "5.99.9"
   }
 }
