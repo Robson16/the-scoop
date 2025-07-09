@@ -33,6 +33,9 @@ const routes = {
   '/comments': {
     'POST': createComment,
   },
+  '/comments/:id': {
+    'PUT': updateComment,
+  },
 };
 
 function getUser(url, request) {
@@ -279,6 +282,30 @@ function createComment(url, request) {
 
   response.body = { comment: newComment };
   response.status = 201;
+
+  return response;
+}
+
+function updateComment(url, request) {
+  const id = Number(url.split('/').filter(segment => segment)[1]);
+  const updatedComment = request.body && request.body.comment;
+  const savedComment = database.comments[id];
+  const response = {};
+
+  if (!updatedComment) {
+    response.status = 400; // Bad Request
+    return response;
+  }
+
+  if (!savedComment) {
+    response.status = 404; // Not Found
+    return response;
+  }
+
+  database.comments[id].body = updatedComment && updatedComment.body || savedComment.body;
+
+  response.status = 200;
+  response.body = { comment: database.comments[id] };
 
   return response;
 }
