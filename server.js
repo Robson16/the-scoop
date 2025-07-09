@@ -2,6 +2,9 @@
 let database = {
   users: {},
   articles: {},
+  comments: {},
+  nextCommentId: 1,
+  nextUserId: 1,
   nextArticleId: 1
 };
 
@@ -26,7 +29,10 @@ const routes = {
   },
   '/articles/:id/downvote': {
     'PUT': downvoteArticle
-  }
+  },
+  '/comments': {
+    'POST': createComment,
+  },
 };
 
 function getUser(url, request) {
@@ -240,6 +246,41 @@ function downvote(item, username) {
     item.downvotedBy.push(username);
   }
   return item;
+}
+
+function createComment(url, request) {
+  const comment = request.body && request.body.comment;
+  const response = {};
+
+  if (
+    !comment ||
+    !comment.username ||
+    !comment.articleId ||
+    !comment.body ||
+    !database.users[comment.username] ||
+    !database.articles[comment.articleId]
+  ) {
+    response.status = 400;
+    return response;
+  }
+
+  const newComment = {
+    id: database.nextCommentId++, // Assign current ID then increment for next use
+    articleId: comment.articleId,
+    username: comment.username,
+    body: comment.body,
+    upvotedBy: [],
+    downvotedBy: []
+  };
+
+  database.comments[newComment.id] = newComment;
+  database.articles[comment.articleId].commentIds.push(newComment.id);
+  database.users[comment.username].commentIds.push(newComment.id);
+
+  response.body = { comment: newComment };
+  response.status = 201;
+
+  return response;
 }
 
 // Write all code above this line.
