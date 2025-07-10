@@ -63,7 +63,7 @@ To complete this project, you will need to add the database information and serv
 - DELETE
   - Receives comment ID from URL parameter
   - Deletes comment from database and removes all references to its ID from corresponding user and article models, returns 204 response
-  - If no ID is supplied or comment with supplied ID doesn't exist, returns 400 response
+  - If no ID is supplied or comment with supplied ID doesn't exist, returns 404 response
 
 **/comments/:id/upvote**
 - PUT
