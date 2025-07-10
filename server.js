@@ -1,3 +1,8 @@
+const Figg = require('figg');
+const dbYaml = new Figg({
+  name: 'database'
+})
+
 // database is let instead of const to allow us to modify it in test.js
 let database = {
   users: {},
@@ -44,6 +49,14 @@ const routes = {
     'PUT': downvoteComment,
   },
 };
+
+function loadDatabase() {
+  return dbYaml.load();
+}
+
+function saveDatabase() {
+  dbYaml.save();
+}
 
 function upvote(item, username) {
   if (item.downvotedBy.includes(username)) {
@@ -432,6 +445,7 @@ const requestHandler = (request, response) => {
       body = JSON.parse(Buffer.concat(body).toString());
       const jsonRequest = { body: body };
       const methodResponse = routes[route][method].call(null, url, jsonRequest);
+      dbYaml.set(database);
       !isTestMode && (typeof saveDatabase === 'function') && saveDatabase();
 
       response.statusCode = methodResponse.status;
@@ -467,7 +481,7 @@ const server = http.createServer(requestHandler);
 
 server.listen(port, (err) => {
   if (err) {
-    return console.log('Server did not start succesfully: ', err);
+    return console.log('Server did not start successfully: ', err);
   }
 
   console.log(`Server is listening on ${port}`);

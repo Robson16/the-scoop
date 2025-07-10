@@ -1,0 +1,68 @@
+users:
+  asdb:
+    username: asdb
+    articleIds:
+      - 1
+    commentIds: []
+  mdol:
+    username: mdol
+    articleIds:
+      - 2
+    commentIds:
+      - 1
+  robson:
+    username: robson
+    articleIds:
+      - 3
+    commentIds: []
+  John Doe:
+    username: John Doe
+    articleIds: []
+    commentIds: []
+articles:
+  '1':
+    id: 1
+    title: bad
+    url: 'http://www.google.com'
+    username: asdb
+    commentIds: []
+    upvotedBy:
+      - robson
+      - John Doe
+    downvotedBy: []
+    comments: []
+  '2':
+    id: 2
+    title: Title
+    url: 'http://google.com'
+    username: mdol
+    commentIds:
+      - 1
+    upvotedBy:
+      - robson
+      - John Doe
+    downvotedBy:
+      - mdol
+    comments:
+      - &ref_0
+        id: 1
+        body: Hi
+        username: mdol
+        articleId: 2
+        upvotedBy: []
+        downvotedBy: []
+  '3':
+    id: 3
+    title: Live do alanzoka
+    url: 'https://www.twitch.tv/alanzoka'
+    username: robson
+    commentIds: []
+    upvotedBy:
+      - robson
+      - John Doe
+    downvotedBy: []
+comments:
+  '1': *ref_0
+nextCommentId: 2
+nextUserId: 1
+nextArticleId: 4

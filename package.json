@@ -33,6 +33,7 @@
   "homepage": "https://github.com/Robson16/the-scoop#readme",
   "dependencies": {
     "chai": "5.2.1",
+    "figg": "0.1.0",
     "mocha": "11.7.1",
     "node-localstorage": "3.0.5",
     "react": "19.1.0",
