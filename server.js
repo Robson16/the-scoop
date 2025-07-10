@@ -37,9 +37,33 @@ const routes = {
     'PUT': updateComment,
     'DELETE': deleteComment,
   },
-  '/comments/:id/upvote': {},
-  '/comments/:id/downvote': {},
+  '/comments/:id/upvote': {
+    'PUT': upvoteComment,
+  },
+  '/comments/:id/downvote': {
+    'PUT': downvoteComment,
+  },
 };
+
+function upvote(item, username) {
+  if (item.downvotedBy.includes(username)) {
+    item.downvotedBy.splice(item.downvotedBy.indexOf(username), 1);
+  }
+  if (!item.upvotedBy.includes(username)) {
+    item.upvotedBy.push(username);
+  }
+  return item;
+}
+
+function downvote(item, username) {
+  if (item.upvotedBy.includes(username)) {
+    item.upvotedBy.splice(item.upvotedBy.indexOf(username), 1);
+  }
+  if (!item.downvotedBy.includes(username)) {
+    item.downvotedBy.push(username);
+  }
+  return item;
+}
 
 function getUser(url, request) {
   const username = url.split('/').filter(segment => segment)[1];
@@ -234,26 +258,6 @@ function downvoteArticle(url, request) {
   return response;
 }
 
-function upvote(item, username) {
-  if (item.downvotedBy.includes(username)) {
-    item.downvotedBy.splice(item.downvotedBy.indexOf(username), 1);
-  }
-  if (!item.upvotedBy.includes(username)) {
-    item.upvotedBy.push(username);
-  }
-  return item;
-}
-
-function downvote(item, username) {
-  if (item.upvotedBy.includes(username)) {
-    item.upvotedBy.splice(item.upvotedBy.indexOf(username), 1);
-  }
-  if (!item.downvotedBy.includes(username)) {
-    item.downvotedBy.push(username);
-  }
-  return item;
-}
-
 function createComment(url, request) {
   const comment = request.body && request.body.comment;
   const response = {};
@@ -342,6 +346,42 @@ function deleteComment(url, request) {
   }
 
   response.status = 204;
+  return response;
+}
+
+function upvoteComment(url, request) {
+  const id = Number(url.split('/').filter(segment => segment)[1]);
+  const username = request.body && request.body.username;
+  let savedComment = database.comments[id];
+  const response = {};
+
+  if (!savedComment || !database.users[username]) {
+    response.status = 400;
+    return response;
+  }
+
+  savedComment = upvote(savedComment, username);
+  response.body = { comment: savedComment };
+
+  response.status = 200;
+  return response;
+}
+
+function downvoteComment(url, request) {
+  const id = Number(url.split('/').filter(segment => segment)[1]);
+  const username = request.body && request.body.username;
+  let savedComment = database.comments[id];
+  const response = {};
+
+  if (!savedComment || !database.users[username]) {
+    response.status = 400;
+    return response;
+  }
+
+  savedComment = downvote(savedComment, username);
+  response.body = { comment: savedComment };
+
+  response.status = 200;
   return response;
 }
 
